@@ -26,9 +26,6 @@
     <QtRcc Include="RedBear.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="RedBear.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtMoc Include="RedBear.h">
       <Filter>Header Files</Filter>
     </QtMoc>

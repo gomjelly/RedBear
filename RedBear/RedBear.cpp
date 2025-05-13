@@ -5,18 +5,37 @@
 #include <QThread>
 #include <QImage>
 #include <QPainter>
+#include <QMediaDevices>
+#include <QCameraDevice>
+#include <QCamera>
+#include <QVideoWidget>
 
 RedBear::RedBear(QWidget* parent)
     : QMainWindow(parent)
 {
     // Qt 위젯 생성
-    m_scene = new QGraphicsScene();
-    m_view = new QGraphicsView(m_scene);
-    m_view->setWindowTitle("Camera View");
-    m_view->show();
+    //m_scene = new QGraphicsScene();
+    //m_view = new QGraphicsView(m_scene);
+    //m_view->setWindowTitle("Camera View");
+    //m_view->show();
+    
+    QList<QCameraDevice> cameras = QMediaDevices::videoInputs();
 
-    this->setCentralWidget(m_view);
-    this->startRender();
+    // QComboBox에 카메라 이름 표시
+    QComboBox* comboBox = new QComboBox;
+    comboBox->clear();
+    for (const QCameraDevice& camera : cameras) {
+        comboBox->addItem(camera.description(), camera.id());
+    }
+
+    QGridLayout* layout = new QGridLayout;
+    layout->addWidget(comboBox, 0, 0);
+
+    QWidget* centralWidget = new QWidget;
+    centralWidget->setLayout(layout);
+
+    this->setCentralWidget(centralWidget);
+    //this->startRender();
 
     this->setFixedSize(800, 600);
 }
