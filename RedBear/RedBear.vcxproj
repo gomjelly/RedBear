@@ -111,7 +111,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="RedBear.qrc" />
-    <QtUic Include="RedBear.ui" />
     <QtMoc Include="RedBear.h" />
     <ClCompile Include="RedBear.cpp" />
     <ClCompile Include="main.cpp" />

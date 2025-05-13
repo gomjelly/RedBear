@@ -38,14 +38,14 @@ void RedBear::startRender()
     connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 
     // 카메라 프레임을 받아 업데이트하는 시그널
-    //connect(worker, &CameraWorker::frameReady, this, [=](const QImage& img) {
-    //    QPixmap pixmap = QPixmap::fromImage(img);
-    //    //m_scene->clear();
-    //    if (m_user)
-    //        m_scene->removeItem(m_user);
-    //    m_user = m_scene->addPixmap(pixmap);
+    connect(worker, &CameraWorker::frameReady, this, [=](const QImage& img) {
+        QPixmap pixmap = QPixmap::fromImage(img);
+        //m_scene->clear();
+        if (m_user)
+            m_scene->removeItem(m_user);
+        m_user = m_scene->addPixmap(pixmap);
 
-    //    });
+        });
 
     thread->start();
 }
@@ -82,8 +82,8 @@ void CameraWorker::process() {
     }
 
     // 모델 파일 및 구성 파일 경로
-    std::string modelFile = "D:\\MyProject\\pose_iter_440000.caffemodel";
-    std::string configFile = "D:\\MyProject\\pose_deploy_linevec.prototxt";
+    std::string modelFile = "C:\\dev\\RedBear\\pose_iter_440000.caffemodel";
+    std::string configFile = "C:\\dev\\RedBear\\pose_deploy_linevec.prototxt";
 
     cv::Mat frame;
     cv::Ptr<cv::dnn::Net> net = cv::makePtr<cv::dnn::Net>(cv::dnn::readNetFromCaffe(configFile, modelFile));
@@ -130,7 +130,7 @@ void CameraWorker::process() {
         QImage img(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
         img.bits(); // QImage가 데이터를 복사하도록 강제
 
-        //emit frameReady(img);
+        emit frameReady(img);
         QThread::msleep(33); // 약 30프레임 속도
     }
 
